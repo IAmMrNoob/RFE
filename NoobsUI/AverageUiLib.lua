@@ -87,9 +87,6 @@ function module:UI(uiName,Colors)
 		wait(skdelay)
 		___Main.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
 	end
-	local function decimal(x,dec)
-		return math.round(x*(10^dec))/(10^dec)
-	end
 	___TOP.InputBegan:Connect(function(input)
 		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 			dragging = true
@@ -709,7 +706,6 @@ function module:UI(uiName,Colors)
 			local called = {}
 
 			function called:newCurrent(x)
-				x = decimal(x,4)
 				current = tonumber(x)
 				Set(x)
 				onSeek(current)
