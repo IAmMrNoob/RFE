@@ -87,6 +87,9 @@ function module:UI(uiName,Colors)
 		wait(skdelay)
 		___Main.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
 	end
+	local function decimal(x,dec)
+		return math.round(x*(10^dec))/(10^dec)
+	end
 	___TOP.InputBegan:Connect(function(input)
 		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 			dragging = true
@@ -625,7 +628,7 @@ function module:UI(uiName,Colors)
 					else
 						x = ((v+n)/(n+m))
 					end
-					seeking.Size = UDim2.new(math.clamp(x,0,1),0, 1,0)
+					seeking.Size = UDim2.new(x,0, 1,0)
 				end
 			end
 			Set(current)
@@ -707,6 +710,8 @@ function module:UI(uiName,Colors)
 
 			function called:newCurrent(x)
 				current = tonumber(x)
+				Set(decimal(x,4))
+				onSeek(current)
 				if BOXEXIST then
 					if round then
 						editbox.Text = math.round(current)
@@ -714,8 +719,6 @@ function module:UI(uiName,Colors)
 						editbox.Text = current
 					end
 				end
-				Set(current)
-				onSeek(current)
 			end
 			function called:newMin(x)
 				Min = x
