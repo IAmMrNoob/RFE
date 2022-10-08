@@ -620,7 +620,11 @@ function module:UI(uiName,Colors)
 					if Max < 0 then
 						n = Max*-1
 					end
-					x = ((v+n)/(n+m))
+					if Min > 0 then
+						x = ((v)/(n+m))
+					else
+						x = ((v+n)/(n+m))
+					end
 					seeking.Size = UDim2.new(math.clamp(x,0,1),0, 1,0)
 				end
 			end
