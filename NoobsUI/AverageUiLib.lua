@@ -1,7 +1,7 @@
 local module = {}
 local _Lc = game.Players.LocalPlayer
 if game:GetService('RunService'):IsStudio() then
-	--module.parent = _Lc.PlayerGui:WaitForChild("Chat")
+	module.parent = _Lc.PlayerGui:WaitForChild("Chat")
 else
 	module.parent = game.coregui
 end
@@ -611,13 +611,16 @@ function module:UI(uiName,Colors)
 				elseif v <= Min then
 					seeking.Size = UDim2.new(0,0, 1,0)
 				else
-					local x = (v-Min)/Max
-					if Min*-1 == Max then
-						x/=2
+					local x
+					local m = Min
+					local n = Max
+					if Min < 0 then
+						m = Min*-1
 					end
-					if x > 1 then
-						x-=1
+					if Max < 0 then
+						n = Max*-1
 					end
+					x = ((v+n)/(n+m))
 					seeking.Size = UDim2.new(math.clamp(x,0,1),0, 1,0)
 				end
 			end
