@@ -1,17 +1,19 @@
 local module = {}
 local _Lc = game.Players.LocalPlayer
-module.parent = game.coregui
---if game:GetService('RunService'):IsStudio() then
---	module.parent = _Lc.PlayerGui
---end
+if game:GetService('RunService'):IsStudio() then
+	--module.parent = _Lc.PlayerGui:WaitForChild("Chat")
+else
+	module.parent = game.coregui
+end
 
-local Color = {
+--[[{ -- Coloring thing for you
 	ToggleOn = Color3.new(0, 1, 0),
 	ToggleOff = Color3.new(1, 0, 0),
 	Main = Color3.fromRGB(180, 108, 136),
 	Drawer = Color3.fromRGB(194, 116, 146),
-	View = Color3.fromRGB(157, 94, 118)
-}
+	View = Color3.fromRGB(157, 94, 118),
+	DefualtTextColor = Color3.fromRGB(226, 226, 226)
+}]]
 function module:UI(uiName,Colors)
 	uiName = uiName or 'NoobsUI'
 	local Colors = Colors or {
@@ -19,7 +21,8 @@ function module:UI(uiName,Colors)
 		ToggleOff = Color3.new(1, 0, 0),
 		Main = Color3.fromRGB(180, 108, 136),
 		Drawer = Color3.fromRGB(194, 116, 146),
-		View = Color3.fromRGB(157, 94, 118)
+		View = Color3.fromRGB(157, 94, 118),
+		DefualtTextColor = Color3.fromRGB(226, 226, 226)
 	}
 	local skdelay = .05
 	local cum = {}
@@ -65,11 +68,13 @@ function module:UI(uiName,Colors)
 	___Title.Parent = ___TOP
 	___Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 	___Title.BackgroundTransparency = 1.000
-	___Title.Size = UDim2.new(0.942, 0, 1, 0)
+	___Title.Size = UDim2.new(0, 489, 1, 0)
+	___Title.Position = UDim2.new(0, 2.5, 0, 0)
 	___Title.Font = Enum.Font.SourceSans
 	___Title.Text = uiName
 	___Title.TextWrapped = true
-	___Title.TextColor3 = Color3.fromRGB(0, 0, 0)
+	___Title.RichText = true
+	___Title.TextColor3 = Colors.DefualtTextColor
 	___Title.TextSize = 28
 	___Title.TextXAlignment = Enum.TextXAlignment.Left
 	local UserInputService = game:GetService("UserInputService")
@@ -218,9 +223,11 @@ function module:UI(uiName,Colors)
 		__Text.Position = UDim2.new(0.293893129, 0, 0.291666687, 0)
 		__Text.Size = UDim2.new(0, 102, 0, 25)
 		__Text.Font = Enum.Font.SourceSans
-		__Text.TextColor3 = Color3.fromRGB(0, 0, 0)
+		__Text.TextColor3 = Colors.DefualtTextColor
 		__Text.LayoutOrder = 1
 		__Text.TextSize = 14.000
+		__Text.RichText = true
+		__Text.Text = Name
 		__Text.TextWrapped = true
 
 		__C.Parent = __Tab
@@ -233,7 +240,6 @@ function module:UI(uiName,Colors)
 		__Tabview.Parent = ___Contents
 		__Tabview.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		__Tabview.BackgroundTransparency = 1.000
-		__Tabview.AutomaticSize = "Y"
 		__Tabview.Size = UDim2.new(1, 0, 0, 0)
 		__Tabview.Visible = false
 
@@ -249,6 +255,20 @@ function module:UI(uiName,Colors)
 			end
 			__Tabview.Visible = true
 		end)
+		local bussygrow = false
+		local function growY(x,t)
+			if bussygrow == false then
+				bussygrow = true
+				local endsize = UDim2.new(__Tabview.Size.X,__Tabview.Size.Y + UDim.new(0,x))
+				for i=0,1,.1 do
+					__Tabview.Size = __Tabview.Size:Lerp(endsize,i)
+					if t then
+						wait(.01)
+					end
+				end
+				bussygrow = false
+			end
+		end
 		local objc = 0
 		local functions = {} 
 
@@ -265,19 +285,35 @@ function module:UI(uiName,Colors)
 			_Text.Position = UDim2.new(0.245547071, 0, 0, 0)
 			_Text.Size = UDim2.new(0, 300, 0, 35)
 			_Text.Font = Enum.Font.SourceSans
-			_Text.TextColor3 = Color3.fromRGB(0, 0, 0)
+			_Text.TextColor3 = Colors.DefualtTextColor
 			_Text.TextSize = 14.000
+			_Text.RichText = true
 			_Text.Text = Text
 			_Text.TextWrapped = true
 
 			_A.CornerRadius = UDim.new(0, 10)
 			_A.Parent = _Text
 			local called = {}
+			local DB = false
 
 			function called:newText(x)
 				_Text.Text = x
 			end
-
+			function called:ExtendY(x)
+				if DB == false then
+					DB = true
+					local endsize = UDim2.new(_Text.Size.X,_Text.Size.Y + UDim.new(0,x))
+					for i=0,1,.1 do
+						_Text.Size = _Text.Size:Lerp(endsize,i)
+						wait(.0001)
+					end
+					DB = false
+				end
+			end
+			function called:ChangeProperty(prop,val)
+				_Text[prop] = val
+			end
+			growY(38)
 			return called
 		end
 		function functions:Button(Text,onclick)
@@ -291,25 +327,43 @@ function module:UI(uiName,Colors)
 			_Button.BackgroundColor3 = Color3.fromRGB(208, 208, 208)
 			_Button.BackgroundTransparency = 0.500
 			_Button.Size = UDim2.new(0, 300, 0, 35)
-			_Button.AutoButtonColor = false
+			_Button.AutoButtonColor = true
 			_Button.Font = Enum.Font.SourceSans
-			_Button.TextColor3 = Color3.fromRGB(0, 0, 0)
+			_Button.TextColor3 = Colors.DefualtTextColor
 			_Button.TextSize = 14.000
+			_Button.RichText = true
 			_Button.Text = Text
 			_Button.TextWrapped = true
+			_Button.MouseButton1Click:Connect(function()
+				onclick()
+			end)
 
 			_A.CornerRadius = UDim.new(0, 10)
 			_A.Parent = _Button
 
-			local called = {}
+			local called,DB = {},false
 
 			function called:newText(x)
 				_Button.Text = x
 			end
-			function called:newOnclick(x)
-				_Button.MouseButton1Click:Connect(x)
+			function called:ExtendY(x)
+				if DB == false then
+					DB = true
+					local endsize = UDim2.new(_Button.Size.X,_Button.Size.Y + UDim.new(0,x))
+					for i=0,1,.1 do
+						_Button.Size = _Button.Size:Lerp(endsize,i)
+						wait(.0001)
+					end
+					DB = false
+				end
 			end
-
+			function called:ChangeProperty(prop,val)
+				_Button[prop] = val
+			end
+			function called:newOnclick(x)
+				onclick = x
+			end
+			growY(38)
 			return called
 		end
 		function functions:Toggle(Text,State,ontoggle)
@@ -374,8 +428,9 @@ function module:UI(uiName,Colors)
 			_Text.BorderSizePixel = 0
 			_Text.Size = UDim2.new(0, 200, 0, 35)
 			_Text.Font = Enum.Font.SourceSans
-			_Text.TextColor3 = Color3.fromRGB(0, 0, 0)
+			_Text.TextColor3 = Colors.DefualtTextColor
 			_Text.TextSize = 14.000
+			_Text.RichText = true
 			_Text.Text = Text
 			local function changestate(x)
 				if x == true then
@@ -404,7 +459,7 @@ function module:UI(uiName,Colors)
 			function called:newOntoggle(x)
 				ontoggle = x
 			end
-
+			growY(38)
 			return called
 		end
 		function functions:TextBox(Text,Typed,inputEnded)
@@ -437,9 +492,10 @@ function module:UI(uiName,Colors)
 			_Text.Position = UDim2.new(0.245547071, 0, 0, 0)
 			_Text.Size = UDim2.new(0, 200, 0, 35)
 			_Text.Font = Enum.Font.SourceSans
-			_Text.TextColor3 = Color3.fromRGB(0, 0, 0)
+			_Text.TextColor3 = Colors.DefualtTextColor
 			_Text.TextSize = 16.000
 			_Text.TextWrapped = true
+			_Text.RichText = true
 			_Text.Text = Text
 
 			_EditText.Parent = _Frame
@@ -451,7 +507,7 @@ function module:UI(uiName,Colors)
 			_EditText.ClearTextOnFocus = false
 			_EditText.Font = Enum.Font.SourceSans
 			_EditText.Text = "200"
-			_EditText.TextColor3 = Color3.fromRGB(0, 0, 0)
+			_EditText.TextColor3 = Colors.DefualtTextColor
 			_EditText.TextSize = 20.000
 			_EditText.TextWrapped = true
 
@@ -482,14 +538,18 @@ function module:UI(uiName,Colors)
 			function called:newInputended(x)
 				inputEnded = x
 			end
-
+			growY(38)
 			return called
 		end
-		function functions:SeekBar(Min,Max,Current,onSeek,textbox)
+		function functions:SeekBar(Min,Max,Current,onSeek,textbox,round)
 			Max = Max or 100
 			Min = Min or 0
 			Current = Current or 0
 			onSeek = onSeek or function() end
+			round = round
+			if round == nil then
+				round = true
+			end
 			local seekbar = Instance.new("ImageButton")
 			local UIListLayout = Instance.new("UIListLayout")
 			local UICorner = Instance.new("UICorner")
@@ -544,14 +604,31 @@ function module:UI(uiName,Colors)
 			local dragInput
 			local dragStart
 			local startPos
-
+			
+			local function Set(v)
+				if v >= Max then
+					seeking.Size = UDim2.new(1,0, 1,0)
+				elseif v <= Min then
+					seeking.Size = UDim2.new(0,0, 1,0)
+				else
+					local x = (v-Min)/Max
+					if Min*-1 == Max then
+						x/=2
+					end
+					if x > 1 then
+						x-=1
+					end
+					seeking.Size = UDim2.new(math.clamp(x,0,1),0, 1,0)
+				end
+			end
+			Set(current)
 			local BOXEXIST = false
 			if editbox~= nil then
 				if editbox:IsA('TextBox') then
 					BOXEXIST = true
 				end end
 			if BOXEXIST then
-				editbox.InputEnded:Connect(function()
+				editbox.FocusLost:Connect(function()
 					if not isdragg then
 						local allowed = {
 							[""] = true,
@@ -563,16 +640,11 @@ function module:UI(uiName,Colors)
 							editbox.Text = text:sub(1, #text - 1)
 						elseif typeof(tonumber(text)) == "number" then
 							current = tonumber(text)
-							if Min < 0 then
-								seeking.Size = UDim2.new((current-Min)/Max/math.sqrt((-Min+Max)/100),0, 1,0)
-							else
-								seeking.Size = UDim2.new(((current-Min)/Max),0, 1,0)
-							end
+							Set(current)
 							onSeek(current)
 						end
 					end
-				end)
-			end
+				end)end
 
 			local function update(input)
 				local delta = input.Position - dragStart
@@ -582,12 +654,9 @@ function module:UI(uiName,Colors)
 				x = math.clamp(x, 0, 1)
 				current = Min + (Max - Min) * x
 				local z = (current-Min)/Max
-				if Min < 0 then
-					z = (current-Min)/Max/math.sqrt((-Min+Max)/100)
-				end
-				if startPos.X.Scale + delta.X/xd > 0 then
-					if startPos.X.Scale + delta.X/xd < 1 then
-						seeking.Size = UDim2.new(z,0, 1,0)
+				if x > 0 then
+					if x < 1 then
+						seeking.Size = UDim2.new(x,0, 1,0)
 					else
 						seeking.Size = UDim2.new(1,0, 1,0)
 					end
@@ -595,7 +664,11 @@ function module:UI(uiName,Colors)
 					seeking.Size = UDim2.new(0, 0, 1, 0)
 				end
 				if BOXEXIST then
-					editbox.Text = math.round(current)
+					if round then
+						editbox.Text = math.round(current)
+					else
+						editbox.Text = current
+					end
 				end
 				onSeek(current)
 			end
@@ -627,11 +700,14 @@ function module:UI(uiName,Colors)
 
 			function called:newCurrent(x)
 				current = tonumber(x)
-				if Min < 0 then
-					seeking.Size = UDim2.new((current-Min)/Max/math.sqrt((-Min+Max)/100),0, 1,0)
-				else
-					seeking.Size = UDim2.new(((current-Min)/Max),0, 1,0)
+				if BOXEXIST then
+					if round then
+						editbox.Text = math.round(current)
+					else
+						editbox.Text = current
+					end
 				end
+				Set(current)
 				onSeek(current)
 			end
 			function called:newMin(x)
@@ -643,12 +719,12 @@ function module:UI(uiName,Colors)
 			function called:newOnseek(x)
 				onSeek = x
 			end
-
+			growY(38)
 			return called
 		end
 		function functions:TextBoxs(Text,Typed,inputEnded1,inputEnded2,inputEnded3)
 			Text = Text or {"X :","Y :","Z :"}
-			Typed = Typed or {'v','v','v'}
+			Typed = Typed or {'','',''}
 			inputEnded1 = inputEnded1 or function() end
 			inputEnded2 = inputEnded2 or function() end
 			inputEnded3 = inputEnded3 or function() end
@@ -703,8 +779,9 @@ function module:UI(uiName,Colors)
 			_Text1.Position = UDim2.new(0.245547071, 0, 0, 0)
 			_Text1.Size = UDim2.new(0, 50, 0, 35)
 			_Text1.Font = Enum.Font.SourceSans
-			_Text1.TextColor3 = Color3.fromRGB(0, 0, 0)
+			_Text1.TextColor3 = Colors.DefualtTextColor
 			_Text1.TextSize = 16.000
+			_Text1.RichText = true
 			_Text1.Text = Text[1]
 			_Text1.TextWrapped = true
 
@@ -717,7 +794,7 @@ function module:UI(uiName,Colors)
 			_EditText1.ClearTextOnFocus = false
 			_EditText1.Font = Enum.Font.SourceSans
 			_EditText1.Text = Typed[1]
-			_EditText1.TextColor3 = Color3.fromRGB(0, 0, 0)
+			_EditText1.TextColor3 = Colors.DefualtTextColor
 			_EditText1.TextSize = 20.000
 			_EditText1.TextWrapped = true
 
@@ -741,8 +818,9 @@ function module:UI(uiName,Colors)
 			_Text2.Position = UDim2.new(0.245547071, 0, 0, 0)
 			_Text2.Size = UDim2.new(0, 50, 0, 35)
 			_Text2.Font = Enum.Font.SourceSans
-			_Text2.TextColor3 = Color3.fromRGB(0, 0, 0)
+			_Text2.TextColor3 = Colors.DefualtTextColor
 			_Text2.TextSize = 16.000
+			_Text2.RichText = true
 			_Text2.Text = Text[2]
 			_Text2.TextWrapped = true
 
@@ -755,7 +833,7 @@ function module:UI(uiName,Colors)
 			_EditText2.ClearTextOnFocus = false
 			_EditText2.Font = Enum.Font.SourceSans
 			_EditText2.Text = Typed[2]
-			_EditText2.TextColor3 = Color3.fromRGB(0, 0, 0)
+			_EditText2.TextColor3 = Colors.DefualtTextColor
 			_EditText2.TextSize = 20.000
 			_EditText2.TextWrapped = true
 
@@ -779,8 +857,9 @@ function module:UI(uiName,Colors)
 			_Text3.Position = UDim2.new(0.245547071, 0, 0, 0)
 			_Text3.Size = UDim2.new(0, 50, 0, 35)
 			_Text3.Font = Enum.Font.SourceSans
-			_Text3.TextColor3 = Color3.fromRGB(0, 0, 0)
+			_Text3.TextColor3 = Colors.DefualtTextColor
 			_Text3.TextSize = 16.000
+			_Text3.RichText = true
 			_Text3.Text = Text[3]
 			_Text3.TextWrapped = true
 
@@ -793,7 +872,7 @@ function module:UI(uiName,Colors)
 			_EditText3.ClearTextOnFocus = false
 			_EditText3.Font = Enum.Font.SourceSans
 			_EditText3.Text = Typed[3]
-			_EditText3.TextColor3 = Color3.fromRGB(0, 0, 0)
+			_EditText3.TextColor3 = Colors.DefualtTextColor
 			_EditText3.TextSize = 20.000
 			_EditText3.TextWrapped = true
 
@@ -858,24 +937,221 @@ function module:UI(uiName,Colors)
 					inputEnded3 = x
 				end
 			end
+			growY(38)
+			return called
+		end
+		function functions:DropDown(Content,Callback)
+			local Content = Content or {}
+			local Callback = Callback or function() end
+			local drop = Instance.new("Frame")
+			local UIListLayout = Instance.new("UIListLayout")
+			local UICorner = Instance.new("UICorner")
+			local Drop = Instance.new("Frame")
+			local ImageButton = Instance.new("ImageButton")
+			local Frame = Instance.new("Frame")
+			local UIPageLayout = Instance.new("UIPageLayout")
+			local ScrollingFrame = Instance.new("ScrollingFrame")
+			local UIListLayout_2 = Instance.new("UIListLayout")
+			local Selection = Instance.new("Frame")
+			local Up = Instance.new("TextButton")
+			local Down = Instance.new("TextButton")
+			local TextTemplate = Instance.new("TextLabel")
+			local ButtonTemplate = Instance.new("TextButton")
 
+			drop.Name = "drop"
+			drop.Parent = __Tabview
+			drop.BackgroundColor3 = Color3.fromRGB(208, 208, 208)
+			drop.BackgroundTransparency = 0.500
+			drop.Position = UDim2.new(0.29516539, 0, 0.316091955, 0)
+			drop.Size = UDim2.new(0, 300, 0, 35)
+
+			UIListLayout.Parent = drop
+			UIListLayout.FillDirection = Enum.FillDirection.Horizontal
+			UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+			UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+
+			UICorner.CornerRadius = UDim.new(0, 10)
+			UICorner.Parent = drop
+
+			Drop.Name = "Drop"
+			Drop.Parent = drop
+			Drop.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			Drop.BackgroundTransparency = 1.000
+			Drop.Size = UDim2.new(0, 250, 0, 35)
+
+			ImageButton.Parent = Drop
+			ImageButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			ImageButton.BackgroundTransparency = 1.000
+			ImageButton.Size = UDim2.new(0, 250, 0, 35)
+			ImageButton.Image = "rbxasset://textures/ui/GuiImagePlaceholder.png"
+			ImageButton.ImageTransparency = 1.000
+
+			Frame.Parent = ImageButton
+			Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			Frame.BackgroundTransparency = 1.000
+			Frame.ClipsDescendants = true
+			Frame.Size = UDim2.new(0, 250, 0, 35)
+
+			UIPageLayout.Parent = Frame
+			UIPageLayout.FillDirection = Enum.FillDirection.Vertical
+			UIPageLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+			UIPageLayout.SortOrder = Enum.SortOrder.LayoutOrder
+			UIPageLayout.VerticalAlignment = Enum.VerticalAlignment.Center
+			UIPageLayout.Circular = true
+
+			ScrollingFrame.Parent = ImageButton
+			ScrollingFrame.Active = true
+			ScrollingFrame.BackgroundColor3 = Colors.View
+			ScrollingFrame.BackgroundTransparency = 0.4
+			ScrollingFrame.BorderSizePixel = 0
+			ScrollingFrame.Position = UDim2.new(0, 0, 0, 35)
+			ScrollingFrame.Size = UDim2.new(0, 250, 0, 0)
+			ScrollingFrame.ZIndex = 3
+			ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+			ScrollingFrame.ScrollBarThickness = 3
+			ScrollingFrame.Visible = false
+			ScrollingFrame.VerticalScrollBarPosition = Enum.VerticalScrollBarPosition.Left
+
+			UIListLayout_2.Parent = ScrollingFrame
+			UIListLayout_2.SortOrder = Enum.SortOrder.LayoutOrder
+
+			Selection.Name = "Selection"
+			Selection.Parent = drop
+			Selection.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			Selection.BackgroundTransparency = 1.000
+			Selection.Size = UDim2.new(0, 50, 0, 35)
+
+			Up.Name = "Up"
+			Up.Parent = Selection
+			Up.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			Up.BackgroundTransparency = 1.000
+			Up.Position = UDim2.new(0, 0, 0.0285714287, 0)
+			Up.Size = UDim2.new(0, 50, 0, 17)
+			Up.Font = Enum.Font.Code
+			Up.Text = "˄"
+			Up.TextColor3 = Colors.DefualtTextColor
+			Up.TextSize = 20.000
+
+			Down.Name = "Down"
+			Down.Parent = Selection
+			Down.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			Down.BackgroundTransparency = 1.000
+			Down.Position = UDim2.new(0, 0, 0, 18)
+			Down.Size = UDim2.new(0, 50, 0, 17)
+			Down.Font = Enum.Font.Code
+			Down.Text = "˅"
+			Down.TextColor3 = Colors.DefualtTextColor
+			Down.TextSize = 20.000
+
+			TextTemplate.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			TextTemplate.BackgroundTransparency = 1.000
+			TextTemplate.Size = UDim2.new(1, 0, 1, 0)
+			TextTemplate.Font = Enum.Font.SourceSans
+			TextTemplate.TextColor3 = Colors.DefualtTextColor
+			TextTemplate.RichText = true
+			TextTemplate.TextSize = 14.000
+
+			ButtonTemplate.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			ButtonTemplate.BackgroundTransparency = 1.000
+			ButtonTemplate.Size = UDim2.new(0, 250, 0, 25)
+			ButtonTemplate.Font = Enum.Font.SourceSans
+			ButtonTemplate.TextColor3 = Colors.DefualtTextColor
+			ButtonTemplate.RichText = true
+			ButtonTemplate.TextSize = 14.000
+			ButtonTemplate.ZIndex = 4
+
+			local contentPages = {}
+			local page = UIPageLayout
+			ScrollingFrame.AutomaticCanvasSize = "Y"
+			page.TweenTime = .1
+			page.ScrollWheelInputEnabled = false
+			local easeInfo = {Enum.EasingDirection.InOut,Enum.EasingStyle.Sine,.1,true}
+			local dropped = false
+			local function quepro()
+				for i,v in pairs(contentPages) do
+					for i,v in pairs(v) do
+						v:destroy()
+					end
+				end
+				table.clear(contentPages)
+				for i,v in pairs(Content) do
+					local lbal = TextTemplate:Clone()
+					lbal.Parent = page.Parent
+					lbal.Text = v
+					lbal.Name = v
+					local btton = ButtonTemplate:Clone()
+					btton.Parent = ScrollingFrame
+					btton.Text = v
+					btton.Name = v
+					btton.MouseButton1Click:Connect(function()
+						page:JumpTo(lbal)
+					end)
+					table.insert(contentPages,{lbal,btton})
+				end
+			end
+			quepro()
+			ImageButton.MouseButton1Click:Connect(function()
+				if dropped then
+					ScrollingFrame:TweenSize(UDim2.new(0, 250,0, 0),unpack(easeInfo))
+					growY(-71,true)
+					ScrollingFrame.Visible = false
+					dropped = false
+				else
+					ScrollingFrame.Visible = true
+					ScrollingFrame:TweenSize(UDim2.new(0, 250,0, 70),unpack(easeInfo))
+					growY(71,true)
+					dropped = true
+				end
+			end)
+			Selection.Down.MouseButton1Click:Connect(function()
+				page:Next()
+			end)
+			Selection.Up.MouseButton1Click:Connect(function()
+				page:Previous()
+			end)
+			page.Stopped:Connect(function(x)
+				if x then
+					Callback(x.Name)
+				end
+			end)
+			local called = {}
+
+			function called:newList(x)
+				Content = x
+				quepro()
+			end
+			function called:CurrentSelection()
+				return page.CurrentPage.Text
+			end
+			function called:newOnSelected(x)
+				Callback = x
+			end
+			growY(38)
 			return called
 		end
 
 		_Mains.TabAM += 1
 		return functions
 	end
-
---[[function module:Color(Colorz)
-	x={
-		ToggleOn = Color3.new(0, 1, 0),
-		ToggleOff = Color3.new(1, 0, 0),
-		Main = Color3.fromRGB(180, 108, 136),
-		Drawer = Color3.fromRGB(194, 116, 146),
-		View = Color3.fromRGB(157, 94, 118)
-	}
-end]]
-	return cum
+	function cum:Color(Colorz)
+		Colorz=Colorz or {
+			ToggleOn = Color3.new(0, 1, 0),
+			ToggleOff = Color3.new(1, 0, 0),
+			Main = Color3.fromRGB(180, 108, 136),
+			Drawer = Color3.fromRGB(194, 116, 146),
+			View = Color3.fromRGB(157, 94, 118),
+			DefualtTextColor = Color3.fromRGB(226, 226, 226)
+		}
+		Colors = Colorz
+		___Main.BackgroundColor3 = Colorz.Main
+		___Drawer.BackgroundColor3 = Colorz.Drawer
+		___Contents.BackgroundColor3 = Colorz.View
+		for i,v in pairs(___B:GetDescendants()) do
+			if v:IsA("TextLabel") or v:IsA("TextButton") then
+				v.TextColor3 = Colorz.DefualtTextColor
+			end
+		end
+	end
+	return cum,Screen
 end
-
 return module
