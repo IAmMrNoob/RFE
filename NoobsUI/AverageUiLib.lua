@@ -709,8 +709,9 @@ function module:UI(uiName,Colors)
 			local called = {}
 
 			function called:newCurrent(x)
+				x = decimal(x,4)
 				current = tonumber(x)
-				Set(decimal(x,4))
+				Set(x)
 				onSeek(current)
 				if BOXEXIST then
 					if round then
