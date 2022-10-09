@@ -185,6 +185,9 @@ function module:UI(uiName,Colors)
 	local _Mains={
 		TabAM=0
 	}
+	local ColoringStuff = {
+		Drop = {},Togg={}
+	}
 	function cum:Tab(Name)
 		Name = Name or 'Tab'
 		local __Tab = Instance.new("ImageButton")
@@ -412,6 +415,7 @@ function module:UI(uiName,Colors)
 			_D.Parent = _B
 			_D.BackgroundColor3 = Color3.fromRGB(255, 0, 4)
 			_D.Size = UDim2.new(0.5, 0, 1, 0)
+			table.insert(ColoringStuff.Togg,_D)
 
 			_E.CornerRadius = UDim.new(0, 10)
 			_E.Parent = _D
@@ -1008,6 +1012,7 @@ function module:UI(uiName,Colors)
 
 			ScrollingFrame.Parent = ImageButton
 			ScrollingFrame.Active = true
+			ScrollingFrame.Name = "AllValuesDropped"
 			ScrollingFrame.BackgroundColor3 = Colors.View
 			ScrollingFrame.BackgroundTransparency = 0.4
 			ScrollingFrame.BorderSizePixel = 0
@@ -1018,6 +1023,7 @@ function module:UI(uiName,Colors)
 			ScrollingFrame.ScrollBarThickness = 3
 			ScrollingFrame.Visible = false
 			ScrollingFrame.VerticalScrollBarPosition = Enum.VerticalScrollBarPosition.Left
+			table.insert(ColoringStuff.Drop,ScrollingFrame)
 
 			UIListLayout_2.Parent = ScrollingFrame
 			UIListLayout_2.SortOrder = Enum.SortOrder.LayoutOrder
@@ -1153,7 +1159,19 @@ function module:UI(uiName,Colors)
 		___Main.BackgroundColor3 = Colorz.Main
 		___Drawer.BackgroundColor3 = Colorz.Drawer
 		___Contents.BackgroundColor3 = Colorz.View
+		for _, tog in ipairs(ColoringStuff.Togg) do
+			if tog.Position.X.Scale >= .5 then
+				tog.BackgroundColor3 = Colorz.ToggleOn;else
+					tog.BackgroundColor3 = Colorz.ToggleOff
+			end
+		end
+		for _, drop in ipairs(ColoringStuff.Drop) do
+			drop.BackgroundColor3 = Colorz.View
+		end
 		for i,v in pairs(___B:GetDescendants()) do
+			if v.Name == 'AllValuesDropped' then
+				v.BackgroundColor3 = Colorz.View
+			end
 			if v:IsA("TextLabel") or v:IsA("TextButton") then
 				v.TextColor3 = Colorz.DefualtTextColor
 			end
