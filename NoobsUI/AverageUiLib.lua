@@ -1142,6 +1142,14 @@ function module:UI(uiName,Colors)
 			growY(38)
 			return called
 		end
+		function functions:openPage()
+			for i,v in ipairs(___Contents:GetChildren()) do
+				if v:IsA('GuiObject') then
+					v.Visible = false
+				end
+			end
+			__Tabview.Visible = true
+		end
 
 		_Mains.TabAM += 1
 		return functions
