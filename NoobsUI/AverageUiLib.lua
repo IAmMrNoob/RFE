@@ -510,7 +510,7 @@ function module:UI(uiName,Colors)
 			_EditText.Size = UDim2.new(0, 100, 0, 35)
 			_EditText.ClearTextOnFocus = false
 			_EditText.Font = Enum.Font.SourceSans
-			_EditText.Text = "200"
+			_EditText.Text = Typed
 			_EditText.TextColor3 = Colors.DefualtTextColor
 			_EditText.TextSize = 20.000
 			_EditText.TextWrapped = true
