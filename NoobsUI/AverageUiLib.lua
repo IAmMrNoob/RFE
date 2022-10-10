@@ -1127,18 +1127,17 @@ function module:UI(uiName,Colors)
 					Callback(x.Name)
 				end
 			end)
-			page:JumpToIndex(1)
 			local called = {}
 
 			function called:newList(x)
 				Content = x
 				quepro()
 			end
-			function called:CurrentSelection(x)
-				page:JumpToIndex(x)
-			end
-			function called:SetSelection()
+			function called:CurrentSelection()
 				return page.CurrentPage.Text
+			end
+			function called:SetSelection(x)
+				page:JumpToIndex(x)
 			end
 			function called:newOnSelected(x)
 				Callback = x
