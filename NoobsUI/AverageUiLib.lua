@@ -1144,6 +1144,7 @@ function module:UI(uiName,Colors)
 					for i, v in ipairs(contentPages) do
 						if v[1].Name == x then
 							page:JumpTo(v[1])
+							Callback(x)
 						end
 					end
 				end
