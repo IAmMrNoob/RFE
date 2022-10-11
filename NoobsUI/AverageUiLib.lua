@@ -1087,7 +1087,7 @@ function module:UI(uiName,Colors)
 					end
 				end
 				table.clear(contentPages)
-				for i,v in pairs(Content) do
+				for i,v in ipairs(Content) do
 					local lbal = TextTemplate:Clone()
 					lbal.Parent = page.Parent
 					lbal.Text = v
@@ -1122,8 +1122,9 @@ function module:UI(uiName,Colors)
 			Selection.Up.MouseButton1Click:Connect(function()
 				page:Previous()
 			end)
+			local jumped = false
 			page.Stopped:Connect(function(x)
-				if x then
+				if x and not jumped then
 					Callback(x.Name)
 				end
 			end)
@@ -1134,10 +1135,18 @@ function module:UI(uiName,Colors)
 				quepro()
 			end
 			function called:CurrentSelection()
-				return page.CurrentPage.Text
+				return page.CurrentPage.Name
 			end
 			function called:SetSelection(x)
-				page:JumpToIndex(x)
+				if typeof(x) == "number" then
+					page:JumpToIndex(x)
+				else
+					for i, v in ipairs(contentPages) do
+						if v[1].Name == x then
+							page:JumpTo(v[1])
+						end
+					end
+				end
 			end
 			function called:newOnSelected(x)
 				Callback = x
