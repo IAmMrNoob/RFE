@@ -3,7 +3,7 @@ local _Lc = game.Players.LocalPlayer
 if game:GetService('RunService'):IsStudio() then
 	module.parent = _Lc.PlayerGui:WaitForChild("Chat")
 else
-	module.parent = game:GetService("CoreGui")
+	module.parent = game.coregui
 end
 
 --[[{ -- Coloring thing for you
@@ -310,6 +310,7 @@ function module:UI(uiName,Colors)
 						_Text.Size = _Text.Size:Lerp(endsize,i)
 						wait(.0001)
 					end
+					growY(x)
 					DB = false
 				end
 			end
@@ -357,6 +358,7 @@ function module:UI(uiName,Colors)
 						_Button.Size = _Button.Size:Lerp(endsize,i)
 						wait(.0001)
 					end
+					growY(x)
 					DB = false
 				end
 			end
@@ -566,7 +568,7 @@ function module:UI(uiName,Colors)
 			seekbar.Parent = __Tabview
 			seekbar.BackgroundColor3 = Color3.fromRGB(208, 208, 208)
 			seekbar.BackgroundTransparency = 0.500
-			seekbar.Size = UDim2.new(0, 300, 0, 35)
+			seekbar.Size = UDim2.new(0, 300, 0, 25)
 			seekbar.AutoButtonColor = false
 			seekbar.Image = "rbxasset://textures/ui/GuiImagePlaceholder.png"
 			seekbar.ImageTransparency = 1.000
@@ -586,7 +588,7 @@ function module:UI(uiName,Colors)
 			bar.BackgroundTransparency = 0.800
 			bar.BorderSizePixel = 0
 			bar.Position = UDim2.new(0.0250000004, 0, 0, 0)
-			bar.Size = UDim2.new(0, 285, 0, 25)
+			bar.Size = UDim2.new(0, 285, 0, 17.5)
 
 			seeking.Name = "seeking"
 			seeking.Parent = bar
@@ -730,7 +732,7 @@ function module:UI(uiName,Colors)
 			function called:newOnseek(x)
 				onSeek = x
 			end
-			growY(38)
+			growY(28)
 			return called
 		end
 		function functions:TextBoxs(Text,Typed,inputEnded1,inputEnded2,inputEnded3)
