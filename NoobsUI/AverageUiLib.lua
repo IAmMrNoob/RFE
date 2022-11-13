@@ -3,7 +3,7 @@ local _Lc = game.Players.LocalPlayer
 if game:GetService('RunService'):IsStudio() then
 	module.parent = _Lc.PlayerGui:WaitForChild("Chat")
 else
-	module.parent = game.CoreGui
+	module.parent = game.coregui
 end
 
 --[[{ -- Coloring thing for you
