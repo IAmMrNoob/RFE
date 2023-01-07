@@ -3,7 +3,7 @@ local _Lc = game.Players.LocalPlayer
 if game:GetService('RunService'):IsStudio() then
 	module.parent = _Lc.PlayerGui:WaitForChild("Chat")
 else
-	module.parent = game.CoreGui
+	module.parent = game.coregui
 end
 
 --[[{ -- Coloring thing for you
@@ -1142,6 +1142,7 @@ function module:UI(uiName,Colors)
 			function called:SetSelection(x)
 				if typeof(x) == "number" then
 					page:JumpToIndex(x)
+					Callback(x)
 				else
 					for i, v in ipairs(contentPages) do
 						if v[1].Name == x then
