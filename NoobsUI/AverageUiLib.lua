@@ -14,8 +14,9 @@ end
 	View = Color3.fromRGB(157, 94, 118),
 	DefualtTextColor = Color3.fromRGB(226, 226, 226)
 }]]
-function module:UI(uiName,Colors)
+function module:UI(uiName,font,Colors)
 	uiName = uiName or 'NoobsUI'
+	font = font or Enum.Font.SourceSans
 	local Colors = Colors or {
 		ToggleOn = Color3.new(0, 1, 0),
 		ToggleOff = Color3.new(1, 0, 0),
@@ -70,7 +71,7 @@ function module:UI(uiName,Colors)
 	___Title.BackgroundTransparency = 1.000
 	___Title.Size = UDim2.new(0, 489, 1, 0)
 	___Title.Position = UDim2.new(0, 2.5, 0, 0)
-	___Title.Font = Enum.Font.SourceSans
+	___Title.Font = font
 	___Title.Text = uiName
 	___Title.TextWrapped = true
 	___Title.RichText = true
@@ -78,10 +79,7 @@ function module:UI(uiName,Colors)
 	___Title.TextSize = 28
 	___Title.TextXAlignment = Enum.TextXAlignment.Left
 	local UserInputService = game:GetService("UserInputService")
-	local dragging
-	local dragInput
-	local dragStart
-	local startPos
+	local dragging,dragInput,dragStart,startPos
 	local function update(input)
 		local delta = input.Position - dragStart
 		wait(skdelay)
@@ -225,7 +223,7 @@ function module:UI(uiName,Colors)
 		__Text.BackgroundTransparency = 1.000
 		__Text.Position = UDim2.new(0.293893129, 0, 0.291666687, 0)
 		__Text.Size = UDim2.new(0, 102, 0, 25)
-		__Text.Font = Enum.Font.SourceSans
+		__Text.Font = font
 		__Text.TextColor3 = Colors.DefualtTextColor
 		__Text.LayoutOrder = 1
 		__Text.TextSize = 14.000
@@ -287,7 +285,7 @@ function module:UI(uiName,Colors)
 			_Text.BorderSizePixel = 0
 			_Text.Position = UDim2.new(0.245547071, 0, 0, 0)
 			_Text.Size = UDim2.new(0, 300, 0, 35)
-			_Text.Font = Enum.Font.SourceSans
+			_Text.Font = font
 			_Text.TextColor3 = Colors.DefualtTextColor
 			_Text.TextSize = 14.000
 			_Text.RichText = true
@@ -296,19 +294,20 @@ function module:UI(uiName,Colors)
 
 			_A.CornerRadius = UDim.new(0, 10)
 			_A.Parent = _Text
-			local called = {}
-			local DB = false
+			local called,DB = {},false
 
 			function called:newText(x)
 				_Text.Text = x
 			end
-			function called:ExtendY(x)
+			function called:ExtendY(x,t)
 				if DB == false then
 					DB = true
 					local endsize = UDim2.new(_Text.Size.X,_Text.Size.Y + UDim.new(0,x))
 					for i=0,1,.1 do
 						_Text.Size = _Text.Size:Lerp(endsize,i)
-						wait(.0001)
+						if not t then
+							wait(.0001)
+						end
 					end
 					growY(x)
 					DB = false
@@ -332,7 +331,7 @@ function module:UI(uiName,Colors)
 			_Button.BackgroundTransparency = 0.500
 			_Button.Size = UDim2.new(0, 300, 0, 35)
 			_Button.AutoButtonColor = true
-			_Button.Font = Enum.Font.SourceSans
+			_Button.Font = font
 			_Button.TextColor3 = Colors.DefualtTextColor
 			_Button.TextSize = 14.000
 			_Button.RichText = true
@@ -350,13 +349,15 @@ function module:UI(uiName,Colors)
 			function called:newText(x)
 				_Button.Text = x
 			end
-			function called:ExtendY(x)
+			function called:ExtendY(x,t)
 				if DB == false then
 					DB = true
 					local endsize = UDim2.new(_Button.Size.X,_Button.Size.Y + UDim.new(0,x))
 					for i=0,1,.1 do
 						_Button.Size = _Button.Size:Lerp(endsize,i)
-						wait(.0001)
+						if not t then
+							wait(.0001)
+						end
 					end
 					growY(x)
 					DB = false
@@ -399,8 +400,6 @@ function module:UI(uiName,Colors)
 			_A.Parent = _Button
 			_A.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			_A.BackgroundTransparency = 1.000
-			_A.Position = UDim2.new(0.666666687, 0, 0, 0)
-			_A.Size = UDim2.new(0.333333522, 0, 1, 0)
 
 			_B.Name = "holder"
 			_B.Parent = _A
@@ -432,12 +431,15 @@ function module:UI(uiName,Colors)
 			_Text.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			_Text.BackgroundTransparency = 1.000
 			_Text.BorderSizePixel = 0
-			_Text.Size = UDim2.new(0, 200, 0, 35)
-			_Text.Font = Enum.Font.SourceSans
+			_Text.Size = UDim2.new(0.75, 0, 1, 0)
+			_Text.Font = font
 			_Text.TextColor3 = Colors.DefualtTextColor
 			_Text.TextSize = 14.000
 			_Text.RichText = true
 			_Text.Text = Text
+			
+			_A.Position = UDim2.new(_Text.Size.X.Scale, 0, 0, 0)
+			_A.Size = UDim2.new(1-_Text.Size.X.Scale, 0, 1, 0)
 			local function changestate(x)
 				if x == true then
 					_D:TweenPosition(UDim2.new(.5,0,0,0),Enum.EasingDirection.In,Enum.EasingStyle.Sine,.1,true)	
@@ -455,6 +457,7 @@ function module:UI(uiName,Colors)
 			changestate(State)
 
 			local called = {}
+			local DB = false
 
 			function called:newText(x)
 				_Text.Text = x
@@ -464,6 +467,20 @@ function module:UI(uiName,Colors)
 			end
 			function called:newOntoggle(x)
 				ontoggle = x
+			end
+			function called:ExtendY(x,t)
+				if DB == false then
+					DB = true
+					local endsize = UDim2.new(_Button.Size.X,_Button.Size.Y + UDim.new(0,x))
+					for i=0,1,.1 do
+						_Button.Size = _Button.Size:Lerp(endsize,i)
+						if not t then
+							wait(.0001)
+						end
+					end
+					growY(x)
+					DB = false
+				end
 			end
 			growY(38)
 			return called
@@ -497,7 +514,7 @@ function module:UI(uiName,Colors)
 			_Text.BorderSizePixel = 0
 			_Text.Position = UDim2.new(0.245547071, 0, 0, 0)
 			_Text.Size = UDim2.new(0, 200, 0, 35)
-			_Text.Font = Enum.Font.SourceSans
+			_Text.Font = font
 			_Text.TextColor3 = Colors.DefualtTextColor
 			_Text.TextSize = 16.000
 			_Text.TextWrapped = true
@@ -511,7 +528,7 @@ function module:UI(uiName,Colors)
 			_EditText.Position = UDim2.new(0.5, 0, 0, 0)
 			_EditText.Size = UDim2.new(0, 100, 0, 35)
 			_EditText.ClearTextOnFocus = false
-			_EditText.Font = Enum.Font.SourceSans
+			_EditText.Font = font
 			_EditText.Text = Typed
 			_EditText.TextColor3 = Colors.DefualtTextColor
 			_EditText.TextSize = 20.000
@@ -588,7 +605,7 @@ function module:UI(uiName,Colors)
 			bar.BackgroundTransparency = 0.800
 			bar.BorderSizePixel = 0
 			bar.Position = UDim2.new(0.0250000004, 0, 0, 0)
-			bar.Size = UDim2.new(0, 285, 0, 17.5)
+			bar.Size = UDim2.new(0.97, 0,0.68, 0)--UDim2.new(0, 285, 0, 17.5)
 
 			seeking.Name = "seeking"
 			seeking.Parent = bar
@@ -710,6 +727,7 @@ function module:UI(uiName,Colors)
 				end
 			end)
 			local called = {}
+			local DB = false
 
 			function called:newCurrent(x)
 				current = tonumber(x)
@@ -731,6 +749,20 @@ function module:UI(uiName,Colors)
 			end
 			function called:newOnseek(x)
 				onSeek = x
+			end
+			function called:ExtendY(x,t)
+				if DB == false then
+					DB = true
+					local endsize = UDim2.new(seekbar.Size.X,seekbar.Size.Y + UDim.new(0,x))
+					for i=0,1,.1 do
+						seekbar.Size = seekbar.Size:Lerp(endsize,i)
+						if not t then
+							wait(.0001)
+						end
+					end
+					growY(x)
+					DB = false
+				end
 			end
 			growY(28)
 			return called
@@ -791,7 +823,7 @@ function module:UI(uiName,Colors)
 			_Text1.BorderSizePixel = 0
 			_Text1.Position = UDim2.new(0.245547071, 0, 0, 0)
 			_Text1.Size = UDim2.new(0, 50, 0, 35)
-			_Text1.Font = Enum.Font.SourceSans
+			_Text1.Font = font
 			_Text1.TextColor3 = Colors.DefualtTextColor
 			_Text1.TextSize = 16.000
 			_Text1.RichText = true
@@ -805,7 +837,7 @@ function module:UI(uiName,Colors)
 			_EditText1.Position = UDim2.new(0.444000006, 0, 0, 0)
 			_EditText1.Size = UDim2.new(0, 50, 0, 35)
 			_EditText1.ClearTextOnFocus = false
-			_EditText1.Font = Enum.Font.SourceSans
+			_EditText1.Font = font
 			_EditText1.Text = Typed[1]
 			_EditText1.TextColor3 = Colors.DefualtTextColor
 			_EditText1.TextSize = 20.000
@@ -830,7 +862,7 @@ function module:UI(uiName,Colors)
 			_Text2.BorderSizePixel = 0
 			_Text2.Position = UDim2.new(0.245547071, 0, 0, 0)
 			_Text2.Size = UDim2.new(0, 50, 0, 35)
-			_Text2.Font = Enum.Font.SourceSans
+			_Text2.Font = font
 			_Text2.TextColor3 = Colors.DefualtTextColor
 			_Text2.TextSize = 16.000
 			_Text2.RichText = true
@@ -844,7 +876,7 @@ function module:UI(uiName,Colors)
 			_EditText2.Position = UDim2.new(0.444000006, 0, 0, 0)
 			_EditText2.Size = UDim2.new(0, 50, 0, 35)
 			_EditText2.ClearTextOnFocus = false
-			_EditText2.Font = Enum.Font.SourceSans
+			_EditText2.Font = font
 			_EditText2.Text = Typed[2]
 			_EditText2.TextColor3 = Colors.DefualtTextColor
 			_EditText2.TextSize = 20.000
@@ -869,7 +901,7 @@ function module:UI(uiName,Colors)
 			_Text3.BorderSizePixel = 0
 			_Text3.Position = UDim2.new(0.245547071, 0, 0, 0)
 			_Text3.Size = UDim2.new(0, 50, 0, 35)
-			_Text3.Font = Enum.Font.SourceSans
+			_Text3.Font = font
 			_Text3.TextColor3 = Colors.DefualtTextColor
 			_Text3.TextSize = 16.000
 			_Text3.RichText = true
@@ -883,7 +915,7 @@ function module:UI(uiName,Colors)
 			_EditText3.Position = UDim2.new(0.444000006, 0, 0, 0)
 			_EditText3.Size = UDim2.new(0, 50, 0, 35)
 			_EditText3.ClearTextOnFocus = false
-			_EditText3.Font = Enum.Font.SourceSans
+			_EditText3.Font = font
 			_EditText3.Text = Typed[3]
 			_EditText3.TextColor3 = Colors.DefualtTextColor
 			_EditText3.TextSize = 20.000
@@ -948,6 +980,20 @@ function module:UI(uiName,Colors)
 					inputEnded2 = x
 				elseif x1 == 3 then
 					inputEnded3 = x
+				end
+			end
+			function called:ExtendY(x,t)
+				if DB == false then
+					DB = true
+					local endsize = UDim2.new(small3.Size.X,small3.Size.Y + UDim.new(0,x))
+					for i=0,1,.1 do
+						small3.Size = small3.Size:Lerp(endsize,i)
+						if not t then
+							wait(.0001)
+						end
+					end
+					growY(x)
+					DB = false
 				end
 			end
 			growY(38)
@@ -1061,7 +1107,7 @@ function module:UI(uiName,Colors)
 			TextTemplate.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			TextTemplate.BackgroundTransparency = 1.000
 			TextTemplate.Size = UDim2.new(1, 0, 1, 0)
-			TextTemplate.Font = Enum.Font.SourceSans
+			TextTemplate.Font = font
 			TextTemplate.TextColor3 = Colors.DefualtTextColor
 			TextTemplate.RichText = true
 			TextTemplate.TextSize = 14.000
@@ -1069,7 +1115,7 @@ function module:UI(uiName,Colors)
 			ButtonTemplate.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			ButtonTemplate.BackgroundTransparency = 1.000
 			ButtonTemplate.Size = UDim2.new(0, 250, 0, 25)
-			ButtonTemplate.Font = Enum.Font.SourceSans
+			ButtonTemplate.Font = font
 			ButtonTemplate.TextColor3 = Colors.DefualtTextColor
 			ButtonTemplate.RichText = true
 			ButtonTemplate.TextSize = 14.000
