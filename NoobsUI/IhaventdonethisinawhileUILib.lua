@@ -254,7 +254,7 @@ module.create = function(Name,colour,returnGui,DefPoss)
 		local rgb = Color3.fromRGB(r,g,b)
 		colour.Text = rgb
 		for i,v in pairs(Main:GetDescendants()) do
-			if v:IsA("TextLabel") then
+			if v:IsA("TextLabel") or v:IsA("TextButton") then
 				v.TextColor = rgb
 			end
 		end
@@ -581,8 +581,19 @@ module.create = function(Name,colour,returnGui,DefPoss)
 				end
 			end
 			_CheckBox.Value = function(x)
+				if typeof(x) ~= 'boolean' then
+					return
+				end
 				if x ~= nil then
 					Value = x
+					OnChange(Value)
+					if Value then
+						ToggleOff:TweenSize(UDim2.new(0, 0, 0, 0),unpack(tweenInfo))
+						ToggledOn:TweenSize(UDim2.new(1, 0, 1, 0),unpack(tweenInfo))
+					else
+						ToggleOff:TweenSize(UDim2.new(1, 0, 1, 0),unpack(tweenInfo))
+						ToggledOn:TweenSize(UDim2.new(0, 0, 0, 0),unpack(tweenInfo))
+					end
 				else
 					return Value
 				end
@@ -890,7 +901,7 @@ module.create = function(Name,colour,returnGui,DefPoss)
 						table.insert(SelectionsItems,CreateItem(v))
 					end
 				else
-					return Selections
+					return Selected.Text
 				end
 			end
 			_Drop.OnSelection = function(x)
