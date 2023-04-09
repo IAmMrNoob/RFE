@@ -498,7 +498,7 @@ module.create = function(Name,colour,returnGui,DefPoss)
 			local ToggleOff = new("ImageLabel",BoxImage)
 			local ToggledOn = new("ImageLabel",BoxImage)
 			local CheckBoxLayout = new("UIListLayout",CheckBox)
-			Value,OnChange = Value or false,function(Value)
+			Value,OnChange = Value or false,OnChange or function(Value)
 				print(Value)
 			end
 
@@ -614,7 +614,7 @@ module.create = function(Name,colour,returnGui,DefPoss)
 			local NameImage = new("ImageLabel",BindName)
 			local InputLayout = new("UIListLayout",BindInput)
 			local uis = game:GetService("UserInputService")
-			Bind,OnPressed = Bind or 'X',function(gameProcessed)
+			Bind,OnPressed = Bind or 'X',OnPressed or function(gameProcessed)
 				print(gameProcessed)
 			end
 			if typeof(Bind) == "EnumItem" then
@@ -744,7 +744,7 @@ module.create = function(Name,colour,returnGui,DefPoss)
 			local DroppedItemsLayout = new("UIListLayout",DroppedItems)
 			local DropSelectionFrameCorner = new("UICorner",Drop)
 			local Selected = new("TextLabel",Drop)
-			Selections,OnSelection = {'Item','Item1','Item2','Item3'},function(x,i)
+			Selections,OnSelection = {'Item','Item1','Item2','Item3'},OnSelection or function(x,i)
 				print(x,i)
 			end
 
