@@ -26,7 +26,7 @@ button.Parent = netflix.Open.Parent
 netflix.Open:destroy()
 nfUi.Open = button
 local opened = true
-button.MouseButton1Click:Connect(function()
+local openclose = function()
     local main = nfUi.Main--
     local un = {Enum.EasingDirection.In,Enum.EasingStyle.Sine,.2}
     local un2 = {Enum.EasingDirection.Out,Enum.EasingStyle.Sine,.2}
@@ -39,12 +39,23 @@ button.MouseButton1Click:Connect(function()
         local posy = button.Position.Y-- + UDim.new(size.Y,0)
         main:TweenSizeAndPosition(UDim2.new(0, 0, 0, 0),UDim2.new(posx,posy),unpack(un))
     end
-end)
+end
+button.MouseButton1Click:Connect(openclose)
 -- maybe i just wanna be fancy idk
 local button = nfUi.Open
 button.Size = UDim2.new(0.03, 0,0.03, 0)
 button.Position = UDim2.new(0.97, 0,0.02, 0)
 button.AnchorPoint = Vector2.new(1, 0.5)
+for i,v in pairs(nfUi.Main:GetDescendants()) do
+    if v:IsA("TextButton") and v.Text == "-" then
+        button = v;break
+    end
+end
+local minButton = button:Clone()
+minButton.Parent = button.Parent
+minButton.MouseButton1Click:Connect(openclose)
+minButton.LayoutOrder = -1
+button:destroy()
 local editor
 for i,v in pairs(nfUi.Main:GetDescendants()) do
     if v:IsA("TextBox") and v.PlaceholderText:match("Netflix") then
