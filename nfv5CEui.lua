@@ -1,4 +1,4 @@
---loadstring(game:HttpGet('https://github.com/IAmMrNoob/RFE/blob/main/nfv5CEui.lua'))()
+--loadstring(game:HttpGet('https://raw.githubusercontent.com/IAmMrNoob/RFE/main/nfv5CEui.lua'))()
 local exec = identifyexecutor():lower()
 if not exec:match("netflix") and not exec:match("v5") then
     return
