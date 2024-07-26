@@ -28,12 +28,13 @@ if _G.fakebuiltinDiscord and _G.fakebuiltinDiscord.isrunning == true then
 	return warn("shitty discrd(rblxedition) is already running")
 end
 local mod = {}
+mod.token = "your token here"
 local Fake_ass_discord = {
-	["_Fake ass discord"] = Instance.new("ScreenGui");--[[
+	["_Fake ass discord"] = Instance.new("ScreenGui");
 	["_StateFrame"] = Instance.new("Frame");
 	["_OpenButton"] = Instance.new("ImageButton");
 	["_OpenButton_Corner"] = Instance.new("UICorner");
-	["_ButtonText"] = Instance.new("TextLabel");]]
+	["_ButtonText"] = Instance.new("TextLabel");
 	["_ThePlaceofInsanity"] = Instance.new("Frame");
 	["_ThePlaceofInsanity_Corner"] = Instance.new("UICorner");
 	["_DirectMesagesOrChannelsTab"] = Instance.new("Frame");
@@ -94,7 +95,7 @@ local json = {
 }
 function discordrest(url:string,method:string, body:string)
 	if mod.token:len() < 20 then
-		return 
+		return {}
 	end
     local quest = request({
         Url = url,
@@ -649,6 +650,11 @@ function dmUserButton(name,id)
 end
 function loaddms()
 	local dmChannels =  discordrest("https://discord.com/api/v9/users/@me/channels")
+    table.foreach(Fake_ass_discord._DMUserList:GetChildren(),function (i,v)
+		if v:IsA("ImageButton") then
+			v:destroy()
+		end
+	end)
     table.foreach(dmChannels,function (i,v)
         if #v.recipients>1 then
             local groupname = ""
@@ -666,13 +672,12 @@ function loaddms()
         end
     end)
 end
-loaddms()
 local show = false
-mod.token = "your token here"
 mod.open = function()
 	if mod.token:len() < 20 then
 		return warn("enter a valid token")
 	end
+	loaddms()
 	show = not show
 	Fake_ass_discord["_Fake ass discord"].Enabled = show
 	if show then
