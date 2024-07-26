@@ -1,4 +1,7 @@
 --[[
+extra note that this can be risky to use on your account since it requests for messages every 3 seconds constantly unless turned off
+]]
+--[[
 	unorganized code but this was a small demo and the actual thing is being worked slowly ig!!
 	i mainly wanted it to be open source to gain trust but idk if i should do that with the one thats being worked on (also @celery devs slide websockets i wanna try using it)
 	even tho idk how to use websockets i have done research on it and will procceed with experimenting with it but i wanna keep try it in lua idk why but im stupid
