@@ -122,6 +122,7 @@ do
 	Fake_ass_discord["_Fake ass discord"].ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 	Fake_ass_discord["_Fake ass discord"].Name = "Fake ass discord"
 	Fake_ass_discord["_Fake ass discord"].Parent = gethui()
+	Fake_ass_discord["_Fake ass discord"].Enabled = false
 
 	Fake_ass_discord["_StateFrame"].AnchorPoint = Vector2.new(0.5, 1)
 	Fake_ass_discord["_StateFrame"].BackgroundColor3 = Color3.fromRGB(45.00000111758709, 45.00000111758709, 45.00000111758709)
