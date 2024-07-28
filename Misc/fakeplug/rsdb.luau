@@ -17,7 +17,7 @@ mod.SlurList = {
 }
 mod.Refresh = function(v)
     local x = request{
-        Url = (v ~= nil and "http://www.rsdb.org/full" or "http://www.rsdb.org/"),
+        Url = (v == true and "http://www.rsdb.org/full" or "http://www.rsdb.org/"),
         Method = "GET",
         Headers = {
             Accept = "*/*"
