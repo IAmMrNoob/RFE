@@ -15,9 +15,9 @@ mod.SlurList = {
         origin_reason = "[Not loaded or try refresh]"
     }
 }
-mod.Refresh = function()
+mod.Refresh = function(v)
     local x = request{
-        Url = "http://www.rsdb.org/full",
+        Url = (v ~= nil and "http://www.rsdb.org/full" or "http://www.rsdb.org/"),
         Method = "GET",
         Headers = {
             Accept = "*/*"
@@ -64,7 +64,5 @@ mod.Refresh = function()
     end)
     mod.SlurList = sl
 end
-
-mod.Refresh()
 
 return mod
