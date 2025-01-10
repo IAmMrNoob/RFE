@@ -184,11 +184,12 @@ table.insert(topBarAddon.serv,game:GetService("CoreGui").TopBarApp.UnibarLeftFra
 				am+=1
 			end
 		end
+		local lO = am
 		for i,butts in ipairs(topBarAddon.Buttons) do
-			am+=1
-			CreateButton(butts.Text,butts.Callback,butts.Img,am,c)
+			lO+=1
+			CreateButton(butts.Text,butts.Callback,butts.Img,lO,c)
 		end
-		if am >= 10 then
+		if lO > am then
 			c.Size = c.Size + UDim2.fromOffset(0,56)
 			c.AutomaticCanvasSize = "Y"
 		end
