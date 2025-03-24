@@ -1,3 +1,13 @@
+local TopBarAppSGui
+for i,v in pairs(game:GetService("CoreGui"):GetDescendants()) do
+    if v:IsA("ScreenGui") and v.Name == "TopBarApp" then
+        TopBarAppSGui = v
+        break
+    end
+end
+if TopBarAppSGui == nil then
+	return "Roblox topbar didnt load ig"
+end
 if getgenv().topBarAddon ~= nil then
 	return
 end
@@ -172,7 +182,7 @@ local function CreateButton(Text,Callback,Img,ord,p)
 	end)
 end
 
-table.insert(topBarAddon.serv,game:GetService("CoreGui").TopBarApp.UnibarLeftFrame.UnibarMenu.SubMenuHost.DescendantAdded:Connect(function(c)
+table.insert(topBarAddon.serv,TopBarAppSGui.UnibarLeftFrame.UnibarMenu.SubMenuHost.DescendantAdded:Connect(function(c)
 	if c.Name == "BottomPadding" and c:IsA("Frame") then
 		c.Size = UDim2.fromOffset(0,56)
 		c.LayoutOrder = 999999
