@@ -1,3 +1,6 @@
+--[[
+	pluh : https://discord.gg/Wn4YQ7vG4S
+]]
 if getgenv().ShittyMediaViewer then
 	return
 end
@@ -263,7 +266,11 @@ function ShittyMediaViewer.Create(_Title,LogoAsset)
 		})
 		display()
 	end
-	function MediaViewer.AddVideo(AssetId) -- thing is with exploits(or i mean executors) i dont think they support .mp4 just webm and i tried it idk what i was doing lowkey but it said something about video resolution not supported but if yk why tell me so i can probably fix that
+	function MediaViewer.AddVideo(AssetId) --[[
+			thing is with exploits(or i mean executors) i dont think they support .mp4 just webm
+			i tried it 
+			lowkey idk what i was doing but it said something about video resolution not supported but if yk why tell me so i can probably fix that or its just a me issue but also lmk what video types are supported for no absolute reason
+		]]
 		table.insert(MediaViewer.Viewer.Assets,{
 			Type = 1,
 			Id = AssetId
