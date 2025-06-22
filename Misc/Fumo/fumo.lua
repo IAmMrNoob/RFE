@@ -1,3 +1,8 @@
+--[[
+	plug ! -> https://discord.gg/Wn4YQ7vG4S
+	i might change things in the future but i also need to like add more folder and find somehwere else to put it that is not github
+	the viewer lowkey small but idk how big certain screens are and i reall dont like scaling at times it always messes things up shit icl
+]]
 loadstring(game:HttpGet(('https://raw.githubusercontent.com/IAmMrNoob/RFE/main/NoobsUI/lilTopbarPlugin.lua'),true))()
 local ShittyMediaViewer = {}
 local mainF = "Fumo"
