@@ -1,4 +1,7 @@
-local ShittyMediaViewer = {}
+if getgenv().ShittyMediaViewer then
+	return
+end
+getgenv().ShittyMediaViewer = {}
 
 function ShittyMediaViewer.Create(_Title,LogoAsset)
 	local ScreanGui = Instance.new("ScreenGui",gethui())
