@@ -1,3 +1,6 @@
+--- id say is of low quality(by my standards ig???) and id rather not even notify my server about it 
+--- its almost basicly a copy paste of my topbar one
+
 local TopBarAppSGui
 for i,v in pairs(game:GetService("CoreGui"):GetDescendants()) do
 	if v:IsA("ScreenGui") and v.Name == "TopBarApp" then
