@@ -40,16 +40,16 @@ getgenv().menuTopBarPlugin = {}
 --- lowkey got no members in it and i post nothing in it btw
 writefile("discord Wn4YQ7vG4S", game:HttpGet("https://cdn.discordapp.com/icons/934681119645921280/2e08b9d6b73e7dab3467a9c84c5f50c4.png?quality=lossless"))
 
-function menuTopBarPlugin.createButton(IconUrl,Callback)
+function menuTopBarPlugin.createButton(IconFP,Callback)
 	Callback = Callback or function()
 		print("come on do something")
 	end
-	IconUrl = IconUrl or getcustomasset("discord Wn4YQ7vG4S")
+	IconFP = getcustomasset(IconFP) or getcustomasset("discord Wn4YQ7vG4S")
 	local clone = bigone:WaitForChild("chat"):Clone()
 	clone.LayoutOrder = 0
 	clone.Parent = bigone:WaitForChild("chat").Parent
 	local hitb = clone:FindFirstChildOfClass("ImageButton")
-	hitb.Image = IconUrl
+	hitb.Image = IconFP
 	
 	local db_ig = true
 	hitb.MouseEnter:Connect(function()
