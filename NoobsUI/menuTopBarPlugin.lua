@@ -50,11 +50,13 @@ function menuTopBarPlugin.createButton(IconFP,Callback)
 	local img = Instance.new("ImageLabel",iconreal.Parent)
 	img.Image = IconFP
 	img.Size = iconreal.Size
+	img.BackgroundTransparency = 1
 	iconreal:Destroy()
 	clone:WaitForChild("5"):Destroy()
 	clone.LayoutOrder = 0
 	clone.Parent = bigone:WaitForChild("chat").Parent
 	
+	local hitb = clone:FindFirstChildOfClass("ImageButton")
 	local db_ig = true
 	hitb.MouseEnter:Connect(function()
 		clone:WaitForChild("Highlighter").Visible = true
