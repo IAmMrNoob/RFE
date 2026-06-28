@@ -46,12 +46,14 @@ function menuTopBarPlugin.createButton(IconFP,Callback)
 	end
 	IconFP = getcustomasset(IconFP) or getcustomasset("discord Wn4YQ7vG4S")
 	local clone = bigone:WaitForChild("chat"):Clone()
-	clone:WaitForChild("IntegrationIconFrame"):Destroy()
+	local iconreal = clone:WaitForChild("IntegrationIconFrame"):WaitForChild("IntegrationIcon")
+	local img = Instance.new("ImageLabel",iconreal.Parent)
+	img.Image = IconFP
+	img.Size = iconreal.Size
+	iconreal:Destroy()
 	clone:WaitForChild("5"):Destroy()
 	clone.LayoutOrder = 0
 	clone.Parent = bigone:WaitForChild("chat").Parent
-	local hitb = clone:FindFirstChildOfClass("ImageButton")
-	hitb.Image = IconFP
 	
 	local db_ig = true
 	hitb.MouseEnter:Connect(function()
